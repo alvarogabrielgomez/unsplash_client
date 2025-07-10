@@ -53,54 +53,59 @@ enum PhotoColor {
 class Photo extends ModelBase {
   const Photo({
     Map<String, dynamic>? source,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.urls,
-    required this.width,
-    required this.height,
-    required this.color,
-    required this.blurHash,
-    required this.downloads,
-    required this.likes,
-    required this.likedByUser,
-    required this.description,
-    required this.exif,
-    required this.location,
-    required this.user,
-    required this.currentUserCollections,
-    required this.links,
-    required this.tags,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.urls,
+    this.width,
+    this.height,
+    this.color,
+    this.blurHash,
+    this.downloads,
+    this.likes,
+    this.likedByUser,
+    this.description,
+    this.exif,
+    this.location,
+    this.user,
+    this.currentUserCollections,
+    this.links,
+    this.tags,
   }) : super(source: source);
 
-  final String id;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final PhotoUrls urls;
-  final int width;
-  final int height;
-  final String color;
+  final String? id;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final PhotoUrls? urls;
+  final int? width;
+  final int? height;
+  final String? color;
   final String? blurHash;
   final int? downloads;
-  final int likes;
-  final bool likedByUser;
+  final int? likes;
+  final bool? likedByUser;
   final String? description;
   final Exif? exif;
   final GeoLocation? location;
-  final User user;
-  final List<Collection> currentUserCollections;
-  final PhotoLinks links;
+  final User? user;
+  final List<Collection>? currentUserCollections;
+  final PhotoLinks? links;
   final List<Tag>? tags;
 
-  double get ratio => width / height;
+  double? get ratio {
+    if (width != null && height != null) {
+      width! / height!;
+    }
+    return null;
+  }
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
-      'urls': urls.toJson(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
+      'urls': urls?.toJson(),
       'width': width,
       'height': height,
       'color': color,
@@ -111,10 +116,10 @@ class Photo extends ModelBase {
       'description': description,
       'exif': exif?.toJson(),
       'location': location?.toJson(),
-      'user': user.toJson(),
+      'user': user?.toJson(),
       'current_user_collections':
-          currentUserCollections.map((it) => it.toJson()).toList(),
-      'links': links.toJson(),
+          currentUserCollections?.map((it) => it.toJson()).toList(),
+      'links': links?.toJson(),
       'tags': tags?.map((tag) => tag.toJson()).toList(),
     };
   }
@@ -127,13 +132,13 @@ class Photo extends ModelBase {
         updatedAt: DateTime.parse(json['updated_at'] as String),
         urls: (json['urls'] as Map<String, dynamic>)
             .let((it) => PhotoUrls.fromJson(it)),
-        width: json['width'] as int,
-        height: json['height'] as int,
-        color: json['color'] as String,
+        width: json['width'] as int?,
+        height: json['height'] as int?,
+        color: json['color'] as String?,
         blurHash: json['blur_hash'] as String?,
         downloads: json['downloads'] as int?,
-        likes: json['likes'] as int,
-        likedByUser: json['liked_by_user'] as bool,
+        likes: json['likes'] as int?,
+        likedByUser: json['liked_by_user'] as bool?,
         description: json['description'] as String?,
         exif: (json['exif'] as Map<String, dynamic>?)
             ?.let((it) => Exif.fromJson(it)),

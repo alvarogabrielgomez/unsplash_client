@@ -30,7 +30,7 @@ void main(List<String> args) async {
   print('---\n');
 
   // Create a dynamically resizing url.
-  final resizedUrl = photos.first.urls.raw.resizePhoto(
+  final resizedUrl = photos.first.urls?.raw.resizePhoto(
     width: 400,
     height: 400,
     fit: ResizeFitMode.clamp,
